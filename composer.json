@@ -1,0 +1,17 @@
+{
+    "name": "ferna/pegar-cotacao-php",
+    "authors": [
+        {
+            "name": "Fernando Valler",
+            "email": "fernandovaller@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\" : "app/"
+        }
+    },
+    "require": {
+        "querypath/querypath": "^3.0"
+    }
+}
