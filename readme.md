@@ -41,3 +41,20 @@ $dados = $indice->listIndiceAllowed();
 // Obter os últimos índices limpando os dados em cache
 $dados = $indice->clearCache()->build()->json();
 ```
+O retorno será algo como:
+
+```json
+{
+  "IGP-M(FGV)": {
+    "indice": "IGP-M(FGV)",
+    "url": "https://sindusconpr.com.br/?pid=309",
+    "data": {
+      "date": "2020-04-01",
+      "value": "778,101",
+      "variation_month": "0,80",
+      "variation_year": "2,50",
+      "variation_twelve_months": "6,68"
+    }
+  }
+}
+```
