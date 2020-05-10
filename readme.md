@@ -8,34 +8,36 @@ Projeto para obter automaticamente os últimos índices divulgados: IGP-M(FGV), 
 
 ### Gettings Started
 
-Faça a instação das dependencias via Composer
-```
-git clone
+Faça a instação das dependencias via `Composer`
+
+```bash
+git clone https://github.com/fernandovaller/indices-economicos.git
+
+cd indices-economicos
 
 composer install
 ```
 
 Veja abaixo um exemplo de uso:
 
-```
+```php
 require __DIR__ . '/vendor/autoload.php';
 
 // Obter os ultimos indices divulgados
 $indice = new App\Sinduscon\Indice();
 
 // Obter os últimos índices divulgados em array
-//$dados = $indice->build()->all();
+$dados = $indice->build()->all();
 
 // Obter os últimos índices divulgados em json
-//$dados = $indice->build()->json();
+$dados = $indice->build()->json();
 
 // Obter um índices especifico
-//$dados = $indice->build()->get('IGP-M(FGV)');
+$dados = $indice->build()->get('IGP-M(FGV)');
 
 // Obter a lista de índices
-//$dados = $indice->listIndiceAllowed();
+$dados = $indice->listIndiceAllowed();
 
 // Obter os últimos índices limpando os dados em cache
-//$dados = $indice->clearCache()->build()->json();
-
+$dados = $indice->clearCache()->build()->json();
 ```
