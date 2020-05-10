@@ -1,5 +1,6 @@
 {
-    "name": "ferna/pegar-cotacao-php",
+    "name": "fernandovaller/indices-economicos",
+    "description": "Obter automaticamente os últimos índices divulgados",
     "authors": [
         {
             "name": "Fernando Valler",
