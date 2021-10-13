@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Sinduscon;
+namespace FVCode\IndicesEconomicos\Sinduscon;
 
-use App\Helper;
-use App\WebScraping;
+use FVCode\IndicesEconomicos\Helper;
+use FVCode\IndicesEconomicos\WebScraping;
 use DateTime;
 
 class Indice
@@ -23,7 +23,9 @@ class Indice
         //$this->permitidos = ['IGP-M(FGV)'];
     }
 
-    // Retorna a lista de permitidos
+    /**
+     * Retorna a lista de permitidos
+     */
     public function listIndiceAllowed()
     {
         return $this->allowed;
@@ -32,8 +34,9 @@ class Indice
     public function build()
     {
         // Verifica se tem em cache
-        if ($this->loadCache())
+        if ($this->loadCache()){
             return $this;
+        }
 
         $this->getIndices();
 
@@ -44,7 +47,9 @@ class Indice
         return $this;
     }
 
-    // Obter os indices disponivel
+    /**
+     * Obter os indices disponivel
+     */
     public function getIndices()
     {
         // Obter dados da url e aplicar o filtro
@@ -60,21 +65,26 @@ class Indice
             $data['indice'] = preg_replace("/[^A-Za-z\\-\\(\\)]/", '', $data['indice']);
 
             // Registra apenas os indices desejados
-            if (in_array($data['indice'], $this->allowed))
+            if (in_array($data['indice'], $this->allowed)){
                 $this->list[$data['indice']] = $data;
+            }
         }
     }
 
-    // Obeter os valores
+    /**
+     * Obter os valores
+     */
     public function getIndicesValues()
     {
-        if (empty($this->list))
-            throw new \Exception("Lista de indices vazia", 1);
+        if (empty($this->list)){
+            throw new \Exception("Lista de indices vazia", 1);           
+        }
 
         foreach ($this->list as $key => $indice) {
 
-            if (empty($indice['url']))
+            if (empty($indice['url'])){
                 break;
+            }
 
             // Obter dados da url e aplicar o filtro
             $html = WebScraping::getHtml($indice['url'])->filter('.post table tr:nth-last-child(2)');
@@ -94,43 +104,57 @@ class Indice
         }
     }
 
-    // Retorno um indice
+    /**
+     * Retorno um indice
+     */
     public function get($indice)
     {
         return json_encode($this->list[$indice]);
     }
 
-    // Retorno todos os indices
+    /**
+     * Retorno todos os indices
+     */
     public function all()
     {
         return $this->list;
     }
 
-    // Retorno os dados em json
+    /**
+     * Retorno os dados em json
+     */
     public function json()
     {
         return json_encode($this->list);
     }
 
-    // Abre os dados em cache
+    /**
+     * Abre os dados em cache
+     */
     private function loadCache()
     {
-        if (!file_exists($this->file))
-            return false;
+        if (!file_exists($this->file)){
+            return false;           
+        }
 
         $dados = json_decode(file_get_contents($this->file), true);
+
         $this->list = $dados;
 
         return true;
     }
 
-    // Salva os dados obtidos
+    /**
+     * Salva os dados obtidos
+     */
     private function saveCache()
     {
         file_put_contents($this->file, json_encode($this->list));
     }
 
-    // Excluir os dados obtidos
+    /**
+     * Excluir os dados obtidos
+     */
     public function clearCache()
     {
         unlink($this->file);
@@ -138,7 +162,9 @@ class Indice
         return $this;
     }
 
-    // Padronizar data
+    /**
+     * Padronizar data
+     */
     public function sanitizeDate($string)
     {
         $date_explode = explode('/', $string);
@@ -146,6 +172,7 @@ class Indice
         $year = $date_explode[1];
 
         $date = DateTime::createFromFormat('Y-m-d', "{$year}-{$month}-01");
+
         return $date->format("Y-m-d");
     }
 }

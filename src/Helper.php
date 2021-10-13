@@ -1,11 +1,14 @@
 <?php
 
-namespace App;
-
-use Exception;
+namespace FVCode\IndicesEconomicos;
 
 class Helper
 {
+    /**
+     * Converte a descrição de uma mês em seu número correspondente
+     * @param string $string Nome do mês
+     * @return integer Número de mês
+     */
     public static function whatNumberMonth($string)
     {
         $string = strtolower($string);
@@ -16,14 +19,21 @@ class Helper
         return str_replace($month_full, $month_num, $string);
     }
 
-    // Formar valores para salvar no MySQL
+    /**
+     * Formar valores para salvar no MySQL
+     * @param string $value Valor a ser formatado
+     * @param integer $precisao Número de casa decimais 
+     * @return float Número formatado
+     */
     function moedaMySQL($value, $precisao = 2)
     {
-        if (empty($value))
+        if (empty($value)) {
             return '0';
+        }
 
         // Remove o ponto
         $value = str_replace('.', '', $value);
+
         // Troca o a virgula pelo ponto
         $value = str_replace(',', '.', $value);
 

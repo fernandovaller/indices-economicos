@@ -2,15 +2,13 @@
     "name": "fernandovaller/indices-economicos",
     "description": "Obter automaticamente os últimos índices divulgados",
     "license": "MIT",
-    "authors": [
-        {
-            "name": "Fernando Valler",
-            "email": "fernandovaller@gmail.com"
-        }
-    ],
+    "authors": [{
+        "name": "Fernando Valler",
+        "email": "fernandovaller@gmail.com"
+    }],
     "autoload": {
         "psr-4": {
-            "App\\" : "app/"
+            "FVCode\\IndicesEconomicos\\": "src"
         }
     },
     "require": {
