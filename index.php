@@ -3,10 +3,10 @@
 require __DIR__ . '/vendor/autoload.php';
 
 // Obter os ultimos indices divulgados
-$indice = new App\Sinduscon\Indice();
+$indice = new \FVCode\IndicesEconomicos\Sinduscon\Indice();
 
 // Obter os últimos índices divulgados em array
-//$dados = $indice->build()->all();
+$dados = $indice->build()->all();
 
 // Obter os últimos índices divulgados em json
 //$dados = $indice->build()->json();
@@ -20,7 +20,5 @@ $indice = new App\Sinduscon\Indice();
 // Obter os últimos índices limpando os dados em cache
 //$dados = $indice->clearCache()->build()->json();
 
-if (is_array($dados) || is_object($dados))
-    print_r($dados);
-else
-    echo $dados;
+echo '<pre>';
+var_dump($dados);
