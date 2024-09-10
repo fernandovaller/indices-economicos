@@ -16,7 +16,7 @@ class Indice
     public function __construct()
     {
         // Definir path do arquivo temporario
-        $this->file = __DIR__ . '/../../data/lista' . date("Ymd") . '.json';
+        $this->file = sys_get_temp_dir() . '/lista' . date("Ymd") . '.json';
 
         // Informa com quais indices deseja trabalhar
         $this->allowed = ['IGP-M(FGV)', 'INPC(IBGE)', 'IPCA(IBGE)', 'INCC-M(FGV)'];
