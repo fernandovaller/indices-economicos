@@ -6,14 +6,30 @@ class Helper
 {
     /**
      * Converte a descrição de uma mês em seu número correspondente
+     *
      * @param string $string Nome do mês
-     * @return integer Número de mês
+     *
+     * @return string Número de mês
      */
     public static function whatNumberMonth($string)
     {
         $string = strtolower($string);
 
-        $month_full = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+        $month_full = [
+            'janeiro',
+            'fevereiro',
+            'março',
+            'abril',
+            'maio',
+            'junho',
+            'julho',
+            'agosto',
+            'setembro',
+            'outubro',
+            'novembro',
+            'dezembro',
+        ];
+
         $month_num = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
 
         return str_replace($month_full, $month_num, $string);
@@ -21,23 +37,22 @@ class Helper
 
     /**
      * Formar valores para salvar no MySQL
+     *
      * @param string $value Valor a ser formatado
-     * @param integer $precisao Número de casa decimais 
-     * @return float Número formatado
+     * @param integer $decimals Número de casa decimais
+     *
+     * @return string Número formatado
      */
-    function moedaMySQL($value, $precisao = 2)
+    function moedaMySQL($value, $decimals = 2)
     {
         if (empty($value)) {
             return '0';
         }
 
-        // Remove o ponto
         $value = str_replace('.', '', $value);
 
-        // Troca o a virgula pelo ponto
         $value = str_replace(',', '.', $value);
 
-        // Formata usando o numero de casas decimais desejado
-        return number_format($value, $precisao, '.', '');
+        return number_format($value, $decimals, '.', '');
     }
 }

@@ -1,47 +1,76 @@
-# Índices econômicos
 
-Authors: Fernando Valler
+# Índices Econômicos
 
+**Autor:** Fernando Valler  
 [Website](http://fernandovaller.com)
 
-Projeto para obter automaticamente os últimos índices divulgados: IGP-M(FGV), INPC(IBGE), IPCA(IBGE) e INCC-M(FGV).
+Este projeto automatiza a obtenção dos últimos índices econômicos divulgados, como:
 
-### Gettings Started
+- **IGP-M (FGV)**
+- **INPC (IBGE)**
+- **IPCA (IBGE)**
+- **INCC-M (FGV)**
 
-Faça a instação das dependencias via `Composer`
+## 🚀 Introdução
 
-```bash
-git clone https://github.com/fernandovaller/indices-economicos.git
+Este projeto facilita o acesso aos principais índices econômicos diretamente via PHP, possibilitando o uso em diversos cenários, como dashboards, relatórios e análises financeiras.
 
-cd indices-economicos
+### Requisitos
 
-composer install
-```
+- PHP 5.6+
+- Composer
 
-Veja abaixo um exemplo de uso:
+### 📦 Instalação
+
+1. Clone o repositório:
+
+   ```bash
+   git clone https://github.com/fernandovaller/indices-economicos.git
+   ```
+
+2. Navegue até o diretório do projeto:
+
+   ```bash
+   cd indices-economicos
+   ```
+
+3. Instale as dependências com o Composer:
+
+   ```bash
+   composer install
+   ```
+
+### 📚 Exemplo de Uso
+
+Abaixo está um exemplo básico de como utilizar o projeto para obter os índices econômicos:
 
 ```php
 require __DIR__ . '/vendor/autoload.php';
 
-// Obter os ultimos indices divulgados
-$indice = new App\Sinduscon\Indice();
+use App\Sinduscon\Indice;
 
-// Obter os últimos índices divulgados em array
+// Criar uma nova instância para buscar os índices
+$indice = new Indice();
+
+// Obter todos os índices mais recentes como array
 $dados = $indice->build()->all();
 
-// Obter os últimos índices divulgados em json
+// Obter todos os índices mais recentes como JSON
 $dados = $indice->build()->json();
 
-// Obter um índices especifico
+// Obter um índice específico (ex: IGP-M)
 $dados = $indice->build()->get('IGP-M(FGV)');
 
-// Obter a lista de índices
-$dados = $indice->listIndiceAllowed();
+// Listar todos os índices disponíveis
+$listaIndices = $indice->listIndiceAllowed();
 
-// Obter os últimos índices limpando os dados em cache
+// Limpar cache e obter os índices novamente
 $dados = $indice->clearCache()->build()->json();
 ```
-O retorno será algo como:
+
+### 📊 Exemplo de Retorno
+
+O retorno da API será semelhante ao exemplo abaixo:
 
 ```json
 {
@@ -58,3 +87,11 @@ O retorno será algo como:
   }
 }
 ```
+
+### 🛠️ Contribuição
+
+Contribuições são bem-vindas! Se você encontrar algum problema ou tiver sugestões de melhorias, fique à vontade para abrir uma issue ou enviar um pull request.
+
+### 📄 Licença
+
+Este projeto está licenciado sob a [MIT License](LICENSE).

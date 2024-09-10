@@ -12,6 +12,7 @@
         }
     },
     "require": {
-        "querypath/querypath": "^3.0"
+        "querypath/querypath": "^3.0",
+        "ext-json": "*"
     }
 }

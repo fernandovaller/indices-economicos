@@ -9,18 +9,18 @@ use DateTime;
 class Indice
 {
     private $url = 'https://sindusconpr.com.br/indices';
+
     private $allowed = [];
+
     private $list;
+
     private $file;
 
     public function __construct()
     {
-        // Definir path do arquivo temporario
-        $this->file = sys_get_temp_dir() . '/lista' . date("Ymd") . '.json';
+        $this->file = sys_get_temp_dir() . '/lista' . date('YmdGi') . '.json';
 
-        // Informa com quais indices deseja trabalhar
         $this->allowed = ['IGP-M(FGV)', 'INPC(IBGE)', 'IPCA(IBGE)', 'INCC-M(FGV)'];
-        //$this->permitidos = ['IGP-M(FGV)'];
     }
 
     /**
@@ -31,10 +31,12 @@ class Indice
         return $this->allowed;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function build()
     {
-        // Verifica se tem em cache
-        if ($this->loadCache()){
+        if ($this->loadCache()) {
             return $this;
         }
 
@@ -48,7 +50,9 @@ class Indice
     }
 
     /**
-     * Obter os indices disponivel
+     * Obter os indices disponível
+     *
+     * @throws \Exception
      */
     public function getIndices()
     {
@@ -57,7 +61,6 @@ class Indice
 
         // Pegar os elementos
         foreach ($html as $el) {
-
             $data['indice'] = trim($el->find('a')->text());
             $data['url'] = trim($el->find('a')->attr("href"));
 
@@ -65,7 +68,7 @@ class Indice
             $data['indice'] = preg_replace("/[^A-Za-z\\-\\(\\)]/", '', $data['indice']);
 
             // Registra apenas os indices desejados
-            if (in_array($data['indice'], $this->allowed)){
+            if (in_array($data['indice'], $this->allowed)) {
                 $this->list[$data['indice']] = $data;
             }
         }
@@ -73,39 +76,38 @@ class Indice
 
     /**
      * Obter os valores
+     *
+     * @throws \Exception
      */
     public function getIndicesValues()
     {
-        if (empty($this->list)){
-            throw new \Exception("Lista de indices vazia", 1);           
+        if (empty($this->list)) {
+            throw new \Exception("Lista de indices vazia", 1);
         }
 
         foreach ($this->list as $key => $indice) {
-
-            if (empty($indice['url'])){
+            if (empty($indice['url'])) {
                 break;
             }
 
-            // Obter dados da url e aplicar o filtro
             $html = WebScraping::getHtml($indice['url'])->filter('.post table tr:nth-last-child(2)');
 
             foreach ($html as $el) {
                 $data['data'] = [
-                    "date"                   => $this->sanitizeDate(trim($el->find('td:nth-child(1)')->text())),
-                    "value"                  => (string) trim($el->find('td:nth-child(2)')->text()),
-                    "variation_month"        => (string) trim($el->find('td:nth-child(3)')->text()),
-                    "variation_year"         => (string) trim($el->find('td:nth-child(4)')->text()),
-                    "variation_twelve_months" => (string) trim($el->find('td:nth-child(5)')->text())
+                    'date' => $this->sanitizeDate(trim($el->find('td:nth-child(1)')->text())),
+                    'value' => (string) trim($el->find('td:nth-child(2)')->text()),
+                    'variation_month' => (string) trim($el->find('td:nth-child(3)')->text()),
+                    'variation_year' => (string) trim($el->find('td:nth-child(4)')->text()),
+                    'variation_twelve_months' => (string) trim($el->find('td:nth-child(5)')->text()),
                 ];
             }
 
-            // Adiciona os valores aos indices
             $this->list[$indice['indice']] = array_merge($this->list[$indice['indice']], $data);
         }
     }
 
     /**
-     * Retorno um indice
+     * Retorno um índice
      */
     public function get($indice)
     {
@@ -133,8 +135,8 @@ class Indice
      */
     private function loadCache()
     {
-        if (!file_exists($this->file)){
-            return false;           
+        if (!file_exists($this->file)) {
+            return false;
         }
 
         $dados = json_decode(file_get_contents($this->file), true);
